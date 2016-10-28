@@ -17,9 +17,7 @@ public class ScrPlatform implements Screen, InputProcessor {
     Game game;
     SpriteBatch batch;
     Texture txDino, txPlat;
-    SprDino sprDino;
     Sprite sprBack;
-    SprPlatform sprPlatform, sprPlatform2;
     int nScreenWid = Gdx.graphics.getWidth(), nDinoHei, nScreenX;
     float fScreenWidth = Gdx.graphics.getWidth(), fScreenHei = Gdx.graphics.getHeight(), fDist, fVBackX;
     private float fVy;
@@ -35,16 +33,10 @@ public class ScrPlatform implements Screen, InputProcessor {
         sprBack.setSize(fScreenWidth, fScreenHei);
         Gdx.input.setInputProcessor((this));
         Gdx.graphics.setDisplayMode(800, 500, false);
-        sprDino = new SprDino("Dinosaur.png", 0, 0);
-        sprPlatform = new SprPlatform("Platform.png", 0, 0);
-        sprPlatform2 = new SprPlatform("Platform.png", 0, 0);
         camBack = new OrthographicCamera(fScreenWidth /** aspectratio*/, fScreenHei);
         camBack.position.set(fScreenWidth / 2, fScreenHei / 2, 0);
         nDinoHei = txDino.getHeight();
-        sprPlatform.setX(nScreenWid);
-        sprPlatform2.setX(nScreenWid);
-        sprPlatform.setY(nDinoHei);
-        sprPlatform2.setY(nDinoHei);
+
     }
 
     @Override
@@ -55,9 +47,6 @@ public class ScrPlatform implements Screen, InputProcessor {
     @Override
     public void render(float f) {
         Gdx.gl.glClearColor(1, 0, 1, 1);
-        sprDino.update(fVx, fVy);
-        sprPlatform.update(sprDino.getX());
-        sprPlatform2.update(sprDino.getX());
         camBack.update();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -68,9 +57,7 @@ public class ScrPlatform implements Screen, InputProcessor {
         batch.draw(sprBack, sprBack.getX(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(sprBack, sprBack.getX() - Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(sprBack, sprBack.getX() + Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(sprDino.getSprite(), sprDino.getX(), sprDino.getY());
-        batch.draw(sprPlatform.getSprite(), sprPlatform.getX(), sprPlatform.getY());
-        batch.draw(sprPlatform2.getSprite(), sprPlatform.getX(), sprPlatform.getY());
+
         batch.end();
         //if (sprDino.getX() > (fScreenWidth/2)) {
             /*if (sprDino.getX() <= fScreenWidth&&sprDino.getX() >= (fScreenWidth/4)) {
