@@ -32,10 +32,8 @@ public class ScrPlatform implements Screen, InputProcessor {
         sprBack2.setSize(fScreenWidth, fScreenHei);
         Gdx.input.setInputProcessor((this));
         Gdx.graphics.setDisplayMode(800, 500, false);
-        camBack = new OrthographicCamera(fScreenWidth /**
-                 * aspectratio
-                 */
-                , fScreenHei);
+        float aspectratio = (float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
+        camBack = new OrthographicCamera(fScreenWidth * aspectratio, fScreenHei);
         camBack.position.set(fScreenWidth / 2, fScreenHei / 2, 0);
 
     }
