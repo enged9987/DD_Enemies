@@ -16,8 +16,7 @@ public class ScrPlatform implements Screen, InputProcessor {
 
     Game game;
     SpriteBatch batch;
-    Texture txDino, txPlat;
-    Sprite sprBack;
+    Sprite sprBack, sprBack2;
     int nScreenWid = Gdx.graphics.getWidth(), nDinoHei, nScreenX;
     float fScreenWidth = Gdx.graphics.getWidth(), fScreenHei = Gdx.graphics.getHeight(), fDist, fVBackX;
     private float fVy;
@@ -27,15 +26,17 @@ public class ScrPlatform implements Screen, InputProcessor {
     public ScrPlatform(Game _game) {
         game = _game;
         batch = new SpriteBatch();
-        txDino = new Texture("Dinosaur.png");
-        txPlat = new Texture("Platform.png");
         sprBack = new Sprite(new Texture(Gdx.files.internal("world.jpg")));
         sprBack.setSize(fScreenWidth, fScreenHei);
+        sprBack2 = new Sprite(new Texture(Gdx.files.internal("world.jpg")));
+        sprBack2.setSize(fScreenWidth, fScreenHei);
         Gdx.input.setInputProcessor((this));
         Gdx.graphics.setDisplayMode(800, 500, false);
-        camBack = new OrthographicCamera(fScreenWidth /** aspectratio*/, fScreenHei);
+        camBack = new OrthographicCamera(fScreenWidth /**
+                 * aspectratio
+                 */
+                , fScreenHei);
         camBack.position.set(fScreenWidth / 2, fScreenHei / 2, 0);
-        nDinoHei = txDino.getHeight();
 
     }
 
@@ -54,43 +55,25 @@ public class ScrPlatform implements Screen, InputProcessor {
             nScreenX = 0;
         }
         batch.setProjectionMatrix(camBack.combined);
-        batch.draw(sprBack, sprBack.getX(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(sprBack, sprBack.getX() - Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(sprBack, sprBack.getX() + Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(sprBack, nScreenX, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(sprBack, nScreenX - Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(sprBack, nScreenX + Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        
+        if (sprBack.getX() > 0) {            
+            nScreenX -= fVx;
+            //camBack.translate(fVBackX, 0f);
+
+        } else if (fDist < 0) {
+            fVx = 0;
+            nScreenX = 0;
+
+        }
+
+        nScreenX += fVx;
+        //camBack.translate(fVBackX, 0f);
 
         batch.end();
-        //if (sprDino.getX() > (fScreenWidth/2)) {
-            /*if (sprDino.getX() <= fScreenWidth&&sprDino.getX() >= (fScreenWidth/4)) {
-         //nScreenX -= fVx;
-         vBackPos.add(vBackDir);
-         //camBack.translate(vBackDir);
-         //nScreenX += 2;
-         System.out.println("Im Here");
-         //use camera.translate
-
-         } /*else if (sprBack.getX() < 0) {
-         fVx = 0;
-         nScreenX = 0;
-         }*/
-        //nScreenX -= fVx;
-        //}*/ 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-           fVBackX -= .3; 
-        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            fVBackX = 0;
-            fVBackX += .3;
-        }
-        if (fDist > 0) {
-            camBack.translate(fVBackX, 0f);
-        } else if (fDist < 0) {
-            fVBackX = 0;
-            fDist = 0;
-        }
-
-        fDist += fVBackX;
-        camBack.translate(fVBackX, 0f);
-
-
 
     }
 
@@ -130,10 +113,10 @@ public class ScrPlatform implements Screen, InputProcessor {
             fVy = -2;
         } else if (keycode == Input.Keys.LEFT) {
             fVx = -2;
-            fVBackX = fVx;            
+            fVBackX = fVx;
         } else if (keycode == Input.Keys.RIGHT) {
             fVx = 2;
-            fVBackX = fVx;            
+            fVBackX = fVx;
         }
         return false;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -147,10 +130,10 @@ public class ScrPlatform implements Screen, InputProcessor {
             fVy = 0;
         } else if (keycode == Input.Keys.LEFT) {
             fVx = 0;
-            fVBackX =0;
+            fVBackX = 0;
         } else if (keycode == Input.Keys.RIGHT) {
             fVx = 0;
-            fVBackX =0;
+            fVBackX = 0;
         }
         return false;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
