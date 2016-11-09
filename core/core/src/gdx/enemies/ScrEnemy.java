@@ -1,4 +1,4 @@
-package platformmovements;
+package gdx.enemies;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,12 +12,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class ScrPlatform implements Screen, InputProcessor {
+public class ScrEnemy implements Screen, InputProcessor {
 
     Game game;
     SpriteBatch batch;
-    Texture txDino, txEnem;
-    SprDino sprDino, sprEnem;
+    Texture txDino;
+
     Sprite sprBack;
     int nScreenWid = Gdx.graphics.getWidth(), nDinoHei, nScreenX;
     float fScreenWidth = Gdx.graphics.getWidth(), fScreenHei = Gdx.graphics.getHeight(), fDist, fVBackX;
@@ -25,17 +25,12 @@ public class ScrPlatform implements Screen, InputProcessor {
     private float fVx;
     OrthographicCamera camBack;
 
-    public ScrPlatform(Game _game) {
+    public ScrEnemy(Game _game) {
         game = _game;
         batch = new SpriteBatch();
-        txDino = new Texture("Dinosaur.png");
-        sprDino = new SprDino("Dinosaur.png", (fScreenWidth / 2) - (txDino.getWidth() / 2), 20);
-        txEnem = new Texture("Birdasaur.png");
-        sprEnem = new SprDino("Birdasaur.png", (fScreenWidth / 10)*8 - (txDino.getWidth() / 2), (fScreenHei/10)* 8);
         sprBack = new Sprite(new Texture(Gdx.files.internal("world.jpg")));
         sprBack.setSize(fScreenWidth, fScreenHei);
         Gdx.input.setInputProcessor((this));
-        Gdx.graphics.setDisplayMode(800, 500, false);
         float aspectratio = (float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
         camBack = new OrthographicCamera(fScreenWidth * aspectratio, fScreenHei);
         camBack.position.set(fScreenWidth / 2, fScreenHei / 2, 0);
@@ -53,8 +48,6 @@ public class ScrPlatform implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camBack.update();
-        sprDino.update(fVx, fVy);
-        sprDino.HitDetection();
         batch.begin();
         if ((nScreenX < -Gdx.graphics.getWidth() || nScreenX > Gdx.graphics.getWidth())) {
             nScreenX = 0;
@@ -63,8 +56,8 @@ public class ScrPlatform implements Screen, InputProcessor {
         batch.draw(sprBack, nScreenX, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(sprBack, nScreenX - Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(sprBack, nScreenX + Gdx.graphics.getWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(sprDino.getSprite(), sprDino.getX(), sprDino.getY());
-        batch.draw(sprEnem.getSprite(), sprEnem.getX(),sprEnem.getY());
+
+
         if (sprBack.getX() > 0) {
             nScreenX += fVx;
         }
